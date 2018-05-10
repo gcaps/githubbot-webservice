@@ -27,10 +27,10 @@ async def self_comment_event(event, gh, *args, **kwargs):
     Whenever I comment on an issue, my bot will be a good bot and "hooray" it.
     """
     
-    author = event.data["issue"]["user"]["login"]
+    author = event.data["comment"]["user"]["login"]
     if author == me:
         url = event.data["comment"]["url"] + "/reactions"
-        await gh.post(url, data={"content": "hooray"})
+        await gh.post(url, data={"content": "hooray"}, accept="application/vnd.github.squirrel-girl-preview+json")
 
 async def main(request):
     body = await request.read()
