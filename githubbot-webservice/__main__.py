@@ -16,7 +16,7 @@ async def issue_opened_event(event, gh, *args, **kwargs):
     url = event.data["issue"]["comments_url"]
     author = event.data["issue"]["user"]["login"]
 
-    message = f"Thanks for the report @{author}! I will look into it ASAP! (I'm a bot)."
+    message = f"Thanks for the report @{author}! I'll check it out. This is an automatic comment by my bot, G-Bot."
     await gh.post(url, data={"body": message})
 
 async def main(request):
@@ -27,7 +27,7 @@ async def main(request):
 
     event = sansio.Event.from_http(request.headers, body, secret=secret)
     async with aiohttp.ClientSession() as session:
-        gh = gh_aiohttp.GitHubAPI(session, "mariatta",
+        gh = gh_aiohttp.GitHubAPI(session, "gcaps",
                                   oauth_token=oauth_token)
         await router.dispatch(event, gh)
     return web.Response(status=200)
