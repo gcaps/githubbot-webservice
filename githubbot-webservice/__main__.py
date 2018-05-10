@@ -18,6 +18,17 @@ async def issue_opened_event(event, gh, *args, **kwargs):
 
     message = f"Thanks for the report @{author}! I'll check it out. This is an automatic comment by my bot, G-Bot."
     await gh.post(url, data={"body": message})
+	
+@router.register("issue_comment", action="created")
+async def self_comment_event(event, gh, *args, **kwargs):
+    """
+    Whenever I comment on an issue, my bot will be a good bot and "hooray" it.
+    """
+    
+    author = event.data["issue"]["user"]["login"]
+	if author == "gcaps":
+	    url = event.data["issue"]["url"] + "/reactions"
+        await gh.post(url, data={"content": "hooray"})
 
 async def main(request):
     body = await request.read()
